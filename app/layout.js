@@ -29,9 +29,9 @@ export default function RootLayout({ children }) {
         {/* Sidebar */}
         <aside className="w-64 bg-gray-800 text-white p-6 flex flex-col gap-4 sticky top-0 h-screen">
           <h2 className="text-xl font-bold mb-6">Assignments</h2>
-          <p>
-            Week 1 is done in d2l.
-          </p>
+          <Link href="/" className="hover:text-cyan-300">
+            Week 1
+          </Link>
           <Link href="/week-2" className="hover:text-cyan-300">
             Week 2
           </Link>
@@ -40,6 +40,9 @@ export default function RootLayout({ children }) {
           </Link>
           <Link href="/week-4" className="hover:text-cyan-300">
             Week 4
+          </Link>
+          <Link href="/week-5" className="hover:text-cyan-300">
+            Week 5
           </Link>
         </aside>
 
