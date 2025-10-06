@@ -7,9 +7,7 @@ export default function Item({ name, quantity, category }) {
         <span className="font-semibold text-gray-800">{name}</span>
         <span className="text-xs text-gray-500">Category: {category}</span>
       </div>
-      <span className="text-sm font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded-lg">
-        Qty: {quantity}
-      </span>
+      
     </li>
   );
 }
