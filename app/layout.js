@@ -44,6 +44,15 @@ export default function RootLayout({ children }) {
           <Link href="/week-5" className="hover:text-cyan-300">
             Week 5
           </Link>
+          <Link href="/week-6" className="hover:text-cyan-300">
+            Week 6
+          </Link>
+          <Link href="/week-7" className="hover:text-cyan-300">
+            Week 7
+          </Link>
+          <Link href="/week-8" className="hover:text-cyan-300">
+            Week 8
+          </Link>
         </aside>
 
         {/* Main content */}
