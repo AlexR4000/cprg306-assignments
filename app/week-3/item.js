@@ -1,13 +1,8 @@
-
-
-export default function Item({ name, quantity, category }) {
+export default function Item({ name, quantity }) {
   return (
-    <li className="p-4 rounded-xl shadow-md bg-white border border-gray-200 flex justify-between items-center hover:shadow-lg transition">
-      <div className="flex flex-col">
-        <span className="font-semibold text-gray-800">{name}</span>
-        <span className="text-xs text-gray-500">Category: {category}</span>
-      </div>
-      
+    <li className="flex justify-between items-center px-4 py-2 hover:bg-gray-50">
+      <span className="text-gray-800 font-medium">{name}</span>
+      <span className="text-gray-500 ml-4">Qty: {quantity}</span>
     </li>
   );
 }

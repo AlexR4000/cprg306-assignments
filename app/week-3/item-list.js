@@ -1,93 +1,87 @@
+"use client";
+
+import { useState } from "react";
 import Item from "./item";
+import itemsData from "./item-list.json";
 
-export default function itemList(){
+export default function ItemList() {
+  const [view, setView] = useState("name"); // "name", "category", "grouped"
 
-    const item1 = {
-    name: "milk, 4 L 🥛",
-    quantity: 1,
-    category: "dairy",
-    };
-    
-    const item2 = {
-    name: "bread 🍞",
-    quantity: 2,
-    category: "bakery",
-    };
-    
-    const item3 = {
-    name: "eggs, dozen 🥚",
-    quantity: 2,
-    category: "dairy",
-    };
-    
-    const item4 = {
-    name: "bananas 🍌",
-    quantity: 6,
-    category: "produce",
-    };
-    
-    const item5 = {
-    name: "broccoli 🥦",
-    quantity: 3,
-    category: "produce",
-    };
-    
-    const item6 = {
-    name: "chicken breasts, 1 kg 🍗",
-    quantity: 1,
-    category: "meat",
-    };
-    
-    const item7 = {
-    name: "pasta sauce 🍝",
-    quantity: 3,
-    category: "canned goods",
-    };
-    
-    const item8 = {
-    name: "spaghetti, 454 g 🍝",
-    quantity: 2,
-    category: "dry goods",
-    };
-    
-    const item9 = {
-    name: "toilet paper, 12 pack 🧻",
-    quantity: 1,
-    category: "household",
-    };
-    
-    const item10 = {
-    name: "paper towels, 6 pack",
-    quantity: 1,
-    category: "household",
-    };
-    
-    const item11 = {
-    name: "dish soap 🍽️",
-    quantity: 1,
-    category: "household",
-    };
-    
-    const item12 = {
-    name: "hand soap 🧼",
-    quantity: 4,
-    category: "household",
-    };
+  // Sort items for flat views
+  const sortedItems = [...itemsData].sort((a, b) => {
+    if (view === "name") return a.name.localeCompare(b.name);
+    if (view === "category") return a.category.localeCompare(b.category);
+    return 0;
+  });
 
-    return (
-    <ul className="space-y-3 mt-4">
-      <Item {...item1} />
-      <Item {...item2} />
-      <Item {...item3} />
-      <Item {...item4} />
-      <Item {...item5} />
-      <Item {...item6} />
-      <Item {...item7} />
-      <Item {...item8} />
-      <Item {...item9} />
-      <Item {...item10} />
-      <Item {...item11} />
-      <Item {...item12} />
-    </ul>
+  // Group items by category
+  const groupedItems = itemsData.reduce((groups, item) => {
+    if (!groups[item.category]) groups[item.category] = [];
+    groups[item.category].push(item);
+    return groups;
+  }, {});
+
+  return (
+    <div>
+      {/* Buttons */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <button
+          onClick={() => setView("name")}
+          className={`px-3 py-1 rounded ${view === "name" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        >
+          Sort by Name
+        </button>
+
+        <button
+          onClick={() => setView("category")}
+          className={`px-3 py-1 rounded ${view === "category" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        >
+          Sort by Category
+        </button>
+
+        <button
+          onClick={() => setView("grouped")}
+          className={`px-3 py-1 rounded ${view === "grouped" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        >
+          Grouped Category
+        </button>
+      </div>
+
+      {/* Render Items */}
+      {view === "grouped" ? (
+        // Grouped by Category
+        Object.keys(groupedItems)
+          .sort() // sort categories alphabetically
+          .map((category) => (
+            <div key={category} className="mb-6">
+              <h2 className="text-xl font-bold capitalize mb-2">{category}</h2>
+              <ul className="border rounded-md divide-y divide-gray-300">
+                {groupedItems[category]
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((item) => (
+                    <Item
+                      key={item.id}
+                      name={item.name}
+                      quantity={item.quantity}
+                      category={item.category}
+                    />
+                  ))}
+              </ul>
+            </div>
+          ))
+      ) : (
+        // Flat list sorted by Name or Category
+        <ul className="border rounded-md divide-y divide-gray-300">
+          {sortedItems.map((item) => (
+            <Item
+              key={item.id}
+              name={item.name}
+              quantity={item.quantity}
+              category={item.category}
+            />
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
