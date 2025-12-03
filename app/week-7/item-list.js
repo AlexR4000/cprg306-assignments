@@ -4,51 +4,34 @@ import { useState } from "react";
 import Item from "./item";
 
 export default function ItemList({ items }) {
-  const [view, setView] = useState("name");
+  const [view, setView] = useState("name"); // name, category, grouped
 
-  const sortedItems = [...items].sort((a, b) => {
-    if (view === "name") return a.name.localeCompare(b.name);
-    if (view === "category") return a.category.localeCompare(b.category);
+  const sortedItems = [...items].sort((a,b)=>{
+    if(view==="name") return a.name.localeCompare(b.name);
+    if(view==="category") return a.category.localeCompare(b.category);
     return 0;
   });
 
-  const groupedItems = items.reduce((groups, item) => {
-    if (!groups[item.category]) groups[item.category] = [];
+  const groupedItems = items.reduce((groups, item)=>{
+    if(!groups[item.category]) groups[item.category] = [];
     groups[item.category].push(item);
     return groups;
   }, {});
 
   return (
     <div>
-      {/* View Buttons */}
       <div className="flex flex-wrap gap-2 mb-4">
-        <button
-          onClick={() => setView("name")}
-          className={`px-3 py-1 rounded ${view === "name" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-        >
-          Sort by Name
-        </button>
-        <button
-          onClick={() => setView("category")}
-          className={`px-3 py-1 rounded ${view === "category" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-        >
-          Sort by Category
-        </button>
-        <button
-          onClick={() => setView("grouped")}
-          className={`px-3 py-1 rounded ${view === "grouped" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-        >
-          Grouped by Category
-        </button>
+        <button onClick={()=>setView("name")} className={`px-3 py-1 rounded ${view==="name"?"bg-blue-500 text-white":"bg-gray-200"}`}>Sort by Name</button>
+        <button onClick={()=>setView("category")} className={`px-3 py-1 rounded ${view==="category"?"bg-blue-500 text-white":"bg-gray-200"}`}>Sort by Category</button>
+        <button onClick={()=>setView("grouped")} className={`px-3 py-1 rounded ${view==="grouped"?"bg-blue-500 text-white":"bg-gray-200"}`}>Grouped by Category</button>
       </div>
 
-      {/* Items */}
-      {view === "grouped" ? (
-        Object.keys(groupedItems).sort().map((category) => (
-          <div key={category} className="mb-6">
-            <h2 className="text-xl font-bold capitalize mb-2">{category}</h2>
+      {view==="grouped" ? (
+        Object.keys(groupedItems).sort().map(cat => (
+          <div key={cat} className="mb-6">
+            <h2 className="text-xl font-bold capitalize mb-2">{cat}</h2>
             <ul className="border rounded-md divide-y divide-gray-300">
-              {groupedItems[category].sort((a,b)=>a.name.localeCompare(b.name)).map(item => (
+              {groupedItems[cat].sort((a,b)=>a.name.localeCompare(b.name)).map(item => (
                 <Item key={item.id} {...item} />
               ))}
             </ul>
